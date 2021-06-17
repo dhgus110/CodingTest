@@ -11,6 +11,8 @@
         "iterator": "cpp",
         "string_view": "cpp",
         "ostream": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "tuple": "cpp",
+        "__node_handle": "cpp"
     }
 }
