@@ -12,7 +12,6 @@ string stage7(string s);
 string frontperiod(string s);
 string backperiod(string s);
 
-
 string solution(string new_id)
 {
     string answer = "";
