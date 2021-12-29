@@ -7,7 +7,7 @@ using namespace std;
 //n-전체 학생 수 ,lost -도난 당한 번호 , reserve - 여벌 번호
 int solution(int n, vector<int> lost, vector<int> reserve) {  
     int answer = 0;
-    vector<int> student(n);
+    vector<int> student(n); //n사이즈 만큼 student 벡터 생성 및 전부 0 으로 초기화
 
     for(int l : lost) student[l-1]--;
     for(int r : reserve) student[r-1]++;
