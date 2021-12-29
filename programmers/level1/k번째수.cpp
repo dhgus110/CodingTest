@@ -4,7 +4,7 @@
 #include <iostream>
 
 using namespace std;
-
+/*
 vector<int> solution(vector<int> array, vector<vector<int>> commands) {
     vector<int> answer;
    for(int a =0; a< commands.size() ;a++){
@@ -21,7 +21,18 @@ vector<int> solution(vector<int> array, vector<vector<int>> commands) {
         v.clear();
    }
     return answer;
+}*/
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+    vector<int> v;
+    for(int i = 0 ; i< commands.size() ; i++){
+        v = array;
+        sort(v.begin() + commㅌands[i][0] - 1, v.begin() + commands[i][1]);
+        answer.push_back(v[(commands[i][0] - 1) + (commands[i][2] - 1)]);
+    }
+    return answer;
 }
+
 
 int main(){
     vector<int> a={1, 5, 2, 6, 3, 7, 4};
