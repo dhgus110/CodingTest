@@ -27,7 +27,7 @@ vector<int> solution(vector<int> array, vector<vector<int>> commands) {
     vector<int> v;
     for(int i = 0 ; i< commands.size() ; i++){
         v = array;
-        sort(v.begin() + commㅌands[i][0] - 1, v.begin() + commands[i][1]);
+        sort(v.begin() + commands[i][0] - 1, v.begin() + commands[i][1]);
         answer.push_back(v[(commands[i][0] - 1) + (commands[i][2] - 1)]);
     }
     return answer;
