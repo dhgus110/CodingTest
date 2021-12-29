@@ -1,10 +1,12 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
 
-vector<int> solution(vector<int> lottos, vector<int> win_nums)
+/*vector<int> solution(vector<int> lottos, vector<int> win_nums)
+
 {
     vector<int> answer;
     int erasedNumber = 0;
@@ -76,4 +78,31 @@ vector<int> solution(vector<int> lottos, vector<int> win_nums)
 int main()
 {
     solution({44, 1, 0, 0, 31, 25}, {31, 10, 45, 1, 6, 19});
+}*/
+int func(int n){
+    if(n==0||n==1) return 6;
+    else if(n==2) return 5;
+    else if(n==3) return 4;
+    else if(n==4) return 3;
+    else if(n==5) return 2;
+    else if(n==6) return 1;
+}
+vector<int> solution(vector<int> lottos, vector<int> win_nums) {
+    vector<int> answer;
+    int empty = 0;
+    int win = 0;
+
+    for(auto l : lottos){
+        if(l==0)
+            empty++;
+        else
+        {
+            if(find(win_nums.begin(),win_nums.end(),l) != win_nums.end())
+                win++;
+        }
+    }
+    answer.push_back(func(win+empty));
+    answer.push_back(func(win));
+
+    return answer;
 }
