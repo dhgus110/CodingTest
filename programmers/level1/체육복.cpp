@@ -34,4 +34,4 @@ int main(){
     for(int i : lost){
     cout<< i<<" "<<lost[i]<<endl;}
 }
-//그리디 알고리즘 
+//그리 알고리즘 
