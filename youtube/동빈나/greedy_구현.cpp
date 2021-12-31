@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <regex>
+#include <queue>
 
 using namespace std;
 
@@ -50,7 +52,7 @@ vector<int> solution1(int N, string path){
 }
 
 
-//시각
+//문제 : 시각
 int solution2(int N){
     int cnt =0;
     for (int hour = 0; hour < N+1; hour++)
@@ -70,7 +72,57 @@ int solution2(int N){
     return cnt;
 }
 
+//문제 : 왕실의 나이트
+int isPath(int x, int y){
+    int goX[8] = {-2, -2, 2, 2, -1, -1, 1, 1};
+    int goY[8] = {-1, 1, -1, 1, -2, 2, -2, 2};
+    int cnt= 8;
+    for(int i = 0 ;i <8; i++){
+        int px = x + goX[i];
+        int py = y + goY[i];
+        if (px < 1 || px > 8 || py < 1 || py > 8)
+            cnt--;
+    }
+    return cnt;
+}
+
+int solution3(string s){
+    int result=0;
+    result = isPath((int)(s[0]-'a')+1, s[1]-'0');
+    return result;
+}
+
+
+//문제 : 문자열 재정렬
+string solution4(string s){
+    regex re("([A-Z]*)([0-9]*)");
+
+    sregex_iterator it(s.begin(), s.end(), re);
+    sregex_iterator end;
+
+    string str = "";
+    string dig = "";
+    string result = "";
+
+    while(it != end){
+        smatch sm =*it;
+         for (int i = 0; i < sm.size(); i++)
+        {
+            if(i==1) str += sm[i];
+            else if( i==2) dig += sm[i];
+
+            // cout << "i: " << i << " .." << sm[i] << "  type : "<<typeid(sm[i]).name() <<endl;
+        }
+        it++;
+    }
+    sort(str.begin(),str.end());
+    sort(dig.begin(),dig.end());
+    result += str;
+    result += dig;
+    return result;
+}
+
 
 int main(){
-    cout<< solution2(5);
+    cout<< solution4("K1VIG352AAAAAAAA4FID244S2G4");
 }
