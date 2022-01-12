@@ -65,9 +65,10 @@ int solution3(vector<int> money, int target){
 int dp4[20][20];
 int solution4(int n ,int m , vector<vector<int>> board){
     int answer = 0;
-
-    for(int y = 0 ; y <n ; y++){
-        dp4[y][0] = board[y][0];
+    for (int x = 0; x < m; x++){
+        for (int y = 0; y < n; y++){
+            dp4[y][x] = board[y][x];
+        }
     }
 
     for(int x = 0 ; x < m ; x++){
