@@ -15,7 +15,7 @@ int solution1(vector<int> rice ,int m){
         long long int total =0;
         int mid = (start+end) /2;
         for(int i = 0; i <size ;i++){
-            if( rice[i]> mid) total += rice[i];
+            if( rice[i]> mid) total += rice[i] - mid;
         }
         if(total < m) end = mid -1;
         else
