@@ -5,6 +5,15 @@
         "unordered_map": "cpp",
         "iostream": "cpp",
         "iosfwd": "cpp",
-        "string": "cpp"
-    }
+        "string": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "ostream": "cpp",
+        "utility": "cpp",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "regex": "cpp",
+        "cmath": "cpp",
+        "__config": "cpp"
+    },
 }

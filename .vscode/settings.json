@@ -13,6 +13,17 @@
         "ostream": "cpp",
         "algorithm": "cpp",
         "tuple": "cpp",
-        "__node_handle": "cpp"
+        "__node_handle": "cpp",
+        "iostream": "cpp",
+        "map": "cpp",
+        "utility": "cpp",
+        "iosfwd": "cpp",
+        "__locale": "cpp",
+        "chrono": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "set": "cpp",
+        "regex": "cpp",
+        "type_traits": "cpp"
     }
 }
