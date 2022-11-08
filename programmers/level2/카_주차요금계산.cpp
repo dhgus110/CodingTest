@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-//Â÷·® ¹øÈ£ ¼ø ¿ì¼±, ½Ã°£ ¼ø
+//ì°¨ëŸ‰ ë²ˆí˜¸ ìˆœ ìš°ì„ , ì‹œê°„ ìˆœ
 bool cmp(const string& a, const string& b) {
     int numa = (a[0] - '0') * 1000 + (a[1] - '0') * 100 + (a[3] - '0') * 10 + (a[4] - '0');
     int numb = (b[0] - '0') * 1000 + (b[1] - '0') * 100 + (b[3] - '0') * 10 + (b[4] - '0');
@@ -26,10 +26,10 @@ bool cmp(const string& a, const string& b) {
 }
 
 int minCeil(int n) {
-    int minute = n / 100 * 60 + n % 100;  // 500(05:00) -> 300ºĞ
-    int ceil = minute % 10 == 0 ? minute : (minute / 10) * 10 + 10; //1ÀÇ ÀÚ¸® ¿Ã¸²
+    int minute = n / 100 * 60 + n % 100;  // 500(05:00) -> 300ë¶„
+    int ceil = minute % 10 == 0 ? minute : (minute / 10) * 10 + 10; //1ì˜ ìë¦¬ ì˜¬ë¦¼
 
-    cout << "´©Àû : " << n << " min : " << minute << " ceil : " << ceil;
+    cout << "ëˆ„ì  : " << n << " min : " << minute << " ceil : " << ceil;
     return ceil;
 }
 
@@ -39,7 +39,7 @@ vector<int> solution(vector<int> fees, vector<string> records) {
     sort(records.begin(), records.end(), cmp);
 
     for (auto r : records) cout << r << endl;
-    cout << "±âº»½Ã°£ :" << fees[0] << "  ±âº»¿ä±İ :" << fees[1] << "  ´ÜÀ§½Ã°£ :" << fees[2] << "  ´ÜÀ§¿ä±İ :" << fees[3] << endl;
+    cout << "ê¸°ë³¸ì‹œê°„ :" << fees[0] << "  ê¸°ë³¸ìš”ê¸ˆ :" << fees[1] << "  ë‹¨ìœ„ì‹œê°„ :" << fees[2] << "  ë‹¨ìœ„ìš”ê¸ˆ :" << fees[3] << endl;
 
     string beforecar = "";
     beforecar += records[0][6];
@@ -67,7 +67,7 @@ vector<int> solution(vector<int> fees, vector<string> records) {
         else
         {
             if(cnt %2 != 0)
-                recordTimes[car].push_back(2359); //ÃâÂ÷ÇÏÁö ¾Ê¾Ò´Ù¸é 23:59 Ãß°¡
+                recordTimes[car].push_back(2359); //ì¶œì°¨í•˜ì§€ ì•Šì•˜ë‹¤ë©´ 23:59 ì¶”ê°€
             cnt = 0;
             recordTimes[++car].push_back(t);
         }
@@ -88,6 +88,7 @@ vector<int> solution(vector<int> fees, vector<string> records) {
 }   
 
 int main() {
+    //ì˜ëª»ëœ 
     vector<vector<int>> a;
     a[0].push_back(1);
     a[0].push_back(1);
