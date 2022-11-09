@@ -26,11 +26,23 @@ bool cmp(const string& a, const string& b) {
 }
 
 int minCeil(int n) {
-    int minute = n / 100 * 60 + n % 100;  // 500(05:00) -> 300분
-    int ceil = minute % 10 == 0 ? minute : (minute / 10) * 10 + 10; //1의 자리 올림
+    int ceil = n % 10 == 0 ? n : (n / 10) * 10 + 10; //1의 자리 올림
+    int minute = ceil / 100 * 60 + ceil % 100;  // 500(05:00) -> 300분
 
-    cout << "누적 : " << n << " min : " << minute << " ceil : " << ceil;
-    return ceil;
+    return minute;
+}
+
+// 올림
+int ceil(int n, int m) {
+    if (n % m == 0) //나누어 떨어지면
+        return n / m;
+    else
+        return ((n / m) * m + m)/m;
+}
+
+//0100(01:00) -> 60분 
+int minute(int n) { 
+    return n / 100 * 60 + n % 100;
 }
 
 vector<int> solution(vector<int> fees, vector<string> records) {
@@ -48,8 +60,9 @@ vector<int> solution(vector<int> fees, vector<string> records) {
     beforecar += records[0][9];
 
     vector<vector<int>> recordTimes;
+    vector<int> time;
 
-    int car = 0, cnt =0;
+    int car = 0, cnt = 0;
     for (auto r : records) {
         string curcar;
         curcar += r[6];
@@ -61,48 +74,55 @@ vector<int> solution(vector<int> fees, vector<string> records) {
 
         if (curcar == beforecar)
         {
-            recordTimes[car].push_back(t);
+            time.push_back(t);
             cnt++;
         }
         else
         {
-            if(cnt %2 != 0)
-                recordTimes[car].push_back(2359); //출차하지 않았다면 23:59 추가
+            if (cnt % 2 != 0)
+                time.push_back(2359); //출차하지 않았다면 23:59 추가
+            recordTimes.push_back(time);
             cnt = 0;
-            recordTimes[++car].push_back(t);
+            time.clear();
+
+            time.push_back(t);
+            cnt++;
         }
         beforecar = curcar;
+    }
+    //마지막 차 
+    if (cnt % 2 != 0)
+        time.push_back(2359); //출차하지 않았다면 23:59 추가
+    recordTimes.push_back(time);
+
+    for (auto aa : recordTimes) {
+        for (auto aaa : aa)
+            cout << aaa << " ";
+        cout << endl;
     }
 
     for (auto r : recordTimes) {
         int accumulatedTime = 0;
-        for (int i = r.size(); i > 0; i-=2) {
-            accumulatedTime += (r[i] - r[i - 1]);
+        for (int i = r.size(); i > 0; i -= 2) {
+            accumulatedTime += (minute(r[i - 1]) - minute(r[i - 2]));
+            cout << "i :" << i << " " << accumulatedTime << endl;
         }
+        int fee = accumulatedTime > fees[0]? fees[1] + ceil(accumulatedTime-fees[0], fees[2]) * fees[3] : fees[1];
 
-        int fee = fees[1] + (minCeil(accumulatedTime) - fees[0]) / fees[2] * fees[3];
         answer.push_back(fee);
     }
 
     return answer;
-}   
+}
 
 int main() {
-    //잘못된 
-    vector<vector<int>> a;
+    //잘못된 표현 
+  /*  vector<vector<int>> a;
     a[0].push_back(1);
-    a[0].push_back(1);
     a[1].push_back(2);
     a[1].push_back(2);
-    a[1].push_back(2);
-
-
     for (auto aa : a) {
         for (auto aaa : aa)
-            cout << aaa<<" ";
-        cout << endl;
-    }
-
-
-
+            cout << aaa << " ";
+        cout << endl;*/
 }
