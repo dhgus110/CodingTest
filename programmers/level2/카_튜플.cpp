@@ -6,8 +6,7 @@
 using namespace std;
 
 bool cmp(vector<int> a, vector<int> b) {
-    if (a.size() > b.size())return a > b;
-    else return a < b;
+    return a.size() < b.size();
 }
 
 vector<int> solution(string s) {
@@ -18,13 +17,13 @@ vector<int> solution(string s) {
     vector<int> dummy;
 
     for (int i = 0; i < s.length(); i++) {
-        if (s[i] == '}' && !num.empty()) { //°ýÈ£°¡ ´ÝÈú ¶§
+        if (s[i] == '}' && !num.empty()) { //ê´„í˜¸ê°€ ë‹«íž ë•Œ
             dummy.push_back(stoi(num));
             tuple.push_back(dummy);
             num = "";
             dummy.clear();
         }
-        else if (isdigit(s[i]) != 0) {  //¼ýÀÚÀÌ¸é
+        else if (isdigit(s[i]) != 0) {  //ìˆ«ìžì´ë©´
             num += s[i];
         }
         else if (s[i] == ',' && !num.empty()) {
@@ -36,9 +35,17 @@ vector<int> solution(string s) {
 
     for (auto tu : tuple) {
         for (auto t : tu) {
-            cout << t << " ";
+            bool check = false;
+            int s;
+            for (auto a : answer) {
+                if (t == a) { 
+                    check = true; 
+                    break;
+                }
+            }
+            if (!check) answer.push_back(t);
         }
-        cout<<"    "<<tu.size() << endl;
     }
+
     return answer;
 }
