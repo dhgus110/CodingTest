@@ -1,9 +1,9 @@
 #include <string>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
+//올바른 괄호 문자열 확인
 bool accurate(string s){
     int slen = s.length();
     int open=0,close=0;
@@ -11,7 +11,7 @@ bool accurate(string s){
         if(s[i]=='(') open++;
         else close++;
 
-        if(open<close) return false;
+        if(open<close) return false; //close가 더 커지는 순간 false
     }
     return true;
 }
@@ -30,23 +30,18 @@ string dfs(string s){
         else
             close++;
 
-        if(open == close) break;
-        cnt++;
+        if(open == close) {cnt++; break;}   
     }
-    cout<<cnt<<endl;
     u= s.substr(0,cnt);
     v= s.substr(cnt);
-
     //step3
     if (accurate(u))
     {
-        cout<< "step3"<<endl;
         u += dfs(v);
         empty = u;
     }   
     else //step4
     {
-        cout<< "step4"<<endl;
         empty += '(';
         empty += dfs(v);
         empty += ')';
