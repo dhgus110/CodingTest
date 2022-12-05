@@ -24,6 +24,10 @@
         "stack": "cpp",
         "set": "cpp",
         "regex": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "__mutex_base": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "unordered_set": "cpp"
     }
 }
