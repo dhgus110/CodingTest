@@ -1,27 +1,32 @@
 #include <string>
 #include <vector>
+#include <deque>
 #include <algorithm>
 
 using namespace std;
 
 int solution(vector<int> people, int limit) {
     int answer = 0;
+    sort(people.begin(), people.end());
+    deque<int> dq(people.begin(), people.end());
 
-    sort(people.begin(),people.end());
-
-    int right = people.size()-1;
-    int left = 0;
-    while(left<=right){
-        answer+= 1;
-        if(people[right]+people[left] <= limit){
-            left++;
-            right--;
+    while (!dq.empty()) {
+        if (dq.size() == 1) {
+            answer += 1;
+            break;
         }
-        else{
-            right--;
-        }
+        int fatty = dq.back();
+        int slender = dq.front();
 
+        if (fatty + slender <= limit) {
+            dq.pop_front();
+            dq.pop_back();
+            answer += 1;
+        }
+        else {
+            dq.pop_back();
+            answer += 1;
+        }
     }
-
     return answer;
 }
