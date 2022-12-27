@@ -3,7 +3,6 @@
 #include <cmath>
 #include <iostream>
 #define ll long long
-
 using namespace std;
 
 ll f(ll num) {
@@ -14,23 +13,17 @@ ll f(ll num) {
         n /= 2;
     }
     string bit2(bit.rbegin(), bit.rend());
-    auto firstZero = bit2.find('0');
+    auto firstZero = bit.find('0'); //가장 오른쪽에 나오는 0의 자리
     if (firstZero != string::npos) {
-        bit2[firstZero] = '1';
-        bit2[firstZero + 1] = '0';
+        ll temp = pow(2, firstZero);
+        n = num + temp - temp / 2;
     }
     else {
-        bit2.insert(1, "0");
+        ll temp = pow(2, bit2.length());
+        n = num + temp - temp / 2;
     }
 
-    ll re = 0;
-    int e = 0;
-    for (int i = bit2.length() - 1; i >= 0; i--) {
-        re += (bit2[i] - '0') * pow(2, e++);
-
-    }
-
-    return re;
+    return n;
 }
 
 vector<ll> solution(vector<ll> numbers) {
@@ -46,3 +39,11 @@ vector<ll> solution(vector<ll> numbers) {
 
     return answer;
 }
+
+//input data를 2진수 변환했을때 가장 먼저 나오는 0의 자리를 1로 나머지는 0으로
+//이 숫자를 input data에 더하고 이 숫자를 / 2 한 값을 빼주시면 됩니다.
+
+//ex)  111 -> 111 + 1000 - 10
+//ex)  101 -> 101 + 10 - 1
+//ex)  101001101 -> 101001101 + 10 - 1
+
