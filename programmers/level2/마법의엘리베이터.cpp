@@ -6,39 +6,25 @@ using namespace std;
 
 int solution(int storey) {
 	int answer = 0;
-	string dummy = to_string(storey);
-	int curLength = dummy.length();
-	int preButton = 0;
-	int preStore = 0;
-	while (curLength != 0)
-	{
-		
+	int num = storey;
+	while (storey != 0) {
+		int curLength = to_string(storey).length();
 		int curLength_10Power = pow(10, curLength - 1);
 		int firstNum = storey / curLength_10Power;
-		if (dummy[0] == '9' && dummy[1] == '5') { //953 ¿Ã∏È (100 - 953 = 47)
+		int pivot = 0;
+		for (int i = 0; i < curLength; i++) pivot += pow(10, i);
+		if (pivot*5 <= storey && storey != 5) { //ÏûêÎ¶øÏàòÍ∞Ä 3ÏûêÎ¶¨ Ïàò Ïùº Îïå 555Í∏∞Ï§ÄÏúºÎ°ú Í≤ÄÏÇ¨
 			storey = curLength_10Power * 10 - storey;
 			answer += 1;
-			cout << "1«ˆ¿Á s: " << storey <<"len : "<<curLength<<" anw : " << answer << endl;
-		}
-		else if (curLength_10Power * 6 - 1 < storey) {
-			storey += (10 - firstNum) * curLength_10Power - curLength_10Power * 10;
-			answer += (10 - firstNum) + 1;
-			preStore = (10 - firstNum) + 1;
-			if (preButton - curLength_10Power * 10 == 0) answer -= 2; // -10 and 10¿ª ¥≠∑∂¿ª ∞ÊøÏ ªÛº‚
-			if (dummy[0] == '9')preButton = curLength_10Power;
-			cout << "2«ˆ¿Á s: " << storey << " πˆ∆∞: " << (10 - firstNum) * curLength_10Power << " ," << -curLength_10Power * 10 << " anw : " << answer << endl;
-
+			cout <<"1 : "<< storey << " , " << answer << endl;
 		}
 		else {
-			storey += -firstNum * curLength_10Power;
+			//answer += switchs(firstNum);
 			answer += firstNum;
-			preStore = firstNum;
-			cout << "3«ˆ¿Á s: " << storey << " πˆ∆∞: " << -firstNum * curLength_10Power << " anw : " << answer << endl;
+			storey -= firstNum * curLength_10Power;
+			cout << "2 : " << storey << " , " << answer << endl;
 
 		}
-		dummy = to_string(storey);
-		curLength -= 1;
 	}
-
 	return answer;
 }
