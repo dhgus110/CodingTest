@@ -1,8 +1,10 @@
 #include <iostream>
+#include <cmath>
 #define INF 1e9
+#define ll long long
 using namespace std;
 
-//ÃÖ´ë °ø¾à¼ö ±¸ÇÏ±â
+//ìµœëŒ€ ê³µì•½ìˆ˜ êµ¬í•˜ê¸°
 int gcdFunction(int a, int b)
 {
 	int c;
@@ -15,11 +17,11 @@ int gcdFunction(int a, int b)
 	return a;
 }
 
-//Á¦ÀÏ ÀÛÀº ¾à¼ö ±¸ÇÏ±â
+//ì œì¼ ì‘ì€ ì•½ìˆ˜ êµ¬í•˜ê¸°
 int factor(int a) {
 	int num= INF;
-	if (a <= 0) {
-		return INF;
+	if (a == 1) {
+		return 1;
 	}
 
 	for (int i = 2; i * i <= a; i++) {
@@ -38,33 +40,14 @@ int factor(int a) {
 	return num;
 }
 
-int f(int w, int h) {
-	int n = 0;
-
-	for (float i = 1; i <= h; i+=1) {
-		float sectionH = i / h;
-	}
-
-	return n;
-}
-
-long long solution(int w, int h) {
-    long long answer = 1;
-
-	int divi = 0;
-	int minW = 0, minH = 0;
-
-	if (w == h) {
-		divi = factor(w) != INF ? factor(w) : w ;
-	}
-	else {
-		divi = gcdFunction(w, h);
-		minW = w / divi;
-		minH = h / divi;
-
-	}
-	
-
+ll solution(int w, int h) {
+    ll answer = 1;
+	ll maxBox = (ll)w * (ll)h;
+	int gcd = gcdFunction(w, h);
+	int gcdW = w / gcd, gcdH = h / gcd;
+	//answer = maxBox - gcd* (gcdW + gcdH - 1); //ëŒ€ê°ì„ ì„ í¬í•¨í•œ ì‚¬ê°í˜•: gcdW + gcdH - 1
+	answer = maxBox - w - h + gcd;
 
     return answer;
 }
+
