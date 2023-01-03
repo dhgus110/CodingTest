@@ -30,49 +30,40 @@ bool checkRightClocks(vector<vector<int>>& clockHands) {
 }
 
 
-//�� �ٸ� 4^n ���� �� ���� �ذ�
-void Handler(int cy, vector<vector<int>>& clockHands) {
+//기본 행렬에서 윗 줄만 4^n 조작 후
+//[x][y]를 0으로 만들기위해 [x+1][y]를 움직임.
+void Handler(int cy, int n, vector<vector<int>>& clockHands) {
     vector<vector<int>> temp(clockHands);
-    vector<vector<int>> temp2(temp);
     for (int i = 0; i < 4; i++) {
         turnClocks(0, cy, temp);
-
-        int runNumber = 0;
-
-        if (cy == 0 && i == 3) {
-            for (auto cl : temp) {
-                for (auto c : cl) {
-                    cout << c << " ";
-                }
-                cout << endl;
-            }
-        }
+        vector<vector<int>> temp2(temp);
+        int initNum = ((i + 1) % 4 ==0 ? 0 : i + 1) +n;
+        int runNum = 0;
 
         for (int x = 0; x < maxSize - 1; x++) {
             for (int y = 0; y < maxSize; y++) {
                 if (temp[x][y] != 0) {
                     while (temp[x][y] % 4 != 0) {
                         turnClocks(x + 1, y, temp);
-                        runNumber++;
+                        runNum++;
                     }
                 }
             }
         }
-        if (checkRightClocks(temp))
-            minRun = minRun > runNumber ? runNumber : minRun;
+        runNum += initNum;
+        if (checkRightClocks(temp)) {
+            minRun = minRun > runNum ? runNum : minRun;
+        }
 
         if(cy+1 < maxSize)
-            Handler(cy + 1, temp2);
+            Handler(cy + 1, initNum, temp2);
 
-        temp = temp2;
+        temp.assign(temp2.begin(),temp2.end()); //다시 temp를 temp2로 변경 
     }
 }
 
 int solution(vector<vector<int>> clockHands) {
     maxSize = clockHands.size();
-    Handler(0, clockHands);
+    Handler(0,0, clockHands);
     return minRun;
 }
-
-
-//[[0, 1, 3, 0], [1, 2, 0, 0], [3, 0, 2, 2], [0, 2, 0, 0]] 8
