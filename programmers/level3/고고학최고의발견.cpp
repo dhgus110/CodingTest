@@ -22,7 +22,7 @@ void turnClocks(int x, int y, vector<vector<int>>& clockHands) {
     }
 }
 
-bool checkRightClocks(vector<vector<int>>& clockHands) {
+bool checkRightClocks(vector<vector<int>>const& clockHands) {
     for (auto cl : clockHands)
         for (auto c : cl)
             if (c != 0) return false;
