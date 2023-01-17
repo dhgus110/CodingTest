@@ -2,22 +2,56 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
+#include <stack>
+#include <algorithm>
+
 using namespace std;
 
+//문자열에서 "110" 삭제하기
 int deletePack(string& s) {
     int cnt = 0;
-    //for (int i = 0; i < s.length()-2; i++) {
-    //    string dummy;
-    //    stringstream ss;
-    //    ss << s[i] << s[i + 1] << s[i + 2];
-    //    ss >> dummy;  // or dummy = ss.str();
-    //    
-    //}
-    while (s.find("110") != string::npos)
+    /*  find(),erase()사용 시간초과
+    while (true)
     {
-        s.erase(s.find("110"), 3);
+        auto sfind = s.find("110");
+        if (sfind == string::npos) break;
+        s.erase(sfind, 3);
         cnt += 1;
+    }*/
+
+    //스택사용으로 시간 줄이기
+    stack<char> st;
+    int i = 0;
+    int len = s.length();
+    while (i != len)
+    {
+        if (s[i] == '0'&& st.size()>=2) {
+            char c = st.top();
+            st.pop();
+            if (st.top() == '1' && c == '1') {
+                st.pop();
+                cnt += 1;
+            }
+            else {
+                st.push(c);
+                st.push(s[i]);
+            }
+        }
+        else {
+            st.push(s[i]);
+        }
+        i += 1;
     }
+    string temp;
+    stringstream ss;
+    while (!st.empty())
+    {
+        ss << st.top();
+        st.pop();
+    }
+    ss >> temp;
+    reverse(temp.begin(), temp.end());
+    s = temp;
     return cnt;
 }
 
@@ -30,31 +64,39 @@ string convert(string s, int cnt) {
         return s;
     }
     while (cnt != 0) {
-        if (s.find("11") != string::npos) {
-            s.insert(s.find("11"), pack);
-            cnt -= 1;
-            continue;
+        auto sfind1 = s.find("11");
+        if (sfind1 != string::npos) {
+            string temp;
+            for (int i = 0; i < cnt; i++)temp += pack;
+            s.insert(sfind1, temp);
+            break;
         }
-        else if (s.rfind("0") != string::npos) {
-            if (s.rfind("0") == s.length() - 1)
+        auto sfind2 = s.rfind("0");
+        if (sfind2 != string::npos) {
+            if (sfind2 == s.length() - 1)
                 s += pack;
             else
-                s.insert(s.rfind("0") + 1, pack);
+                s.insert(sfind2 + 1, pack);
             cnt -= 1;
             continue;
         }
-        else if (s.find("1") != string::npos) {
-            s.insert(s.find("1"), pack);
+        auto sfind3 = s.find("1");
+        if (sfind3 != string::npos) {
+            s.insert(sfind3, pack);
             cnt -= 1;
             continue;
         }
     }
+    return s;
 }
 
 vector<string> solution(vector<string> s) {
     vector<string> answer;
-    deletePack(s[0]);
-
+    for (auto ss : s) {
+        string temp = ss;
+        int cnt = deletePack(temp);
+        answer.push_back(convert(temp,cnt));
+    }
 
     return answer;
 }
