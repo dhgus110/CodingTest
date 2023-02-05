@@ -106,7 +106,7 @@ vector<int> solution(vector<vector<int>> edges, vector<int> target)
     return answer;
 }
 
-//리프 최대 100 각각 34
+//리프 최대 100 각각 34..
 //3400 ?
 
 //4 8 7 9 4 10 7 8 4 9 7 10
