@@ -1,37 +1,76 @@
 #include <string>
 #include <vector>
-#define INF 1e9
+#include <queue>
+
 using namespace std;
-//S: Ω√¿€ ¡ˆ¡°
-//E : √‚±∏
-//L : ∑ππˆ
-//O : ≈Î∑Œ
-//X : ∫Æ
+//S: ÏãúÏûë ÏßÄÏ†ê
+//E : Ï∂úÍµ¨
+//L : Î†àÎ≤Ñ
+//O : ÌÜµÎ°ú
+//X : Î≤Ω
+
+bool** visited;
+int graphStoL[101][101];
+int graphLtoE[101][101];
 int dx[4] = { 0,0,1,-1 };
 int dy[4] = { 1,-1,0,0 };
-int table[10001][10001];
 
+void init(vector<string>const& maps) {
+    int x = maps[0].size();
+    int y = maps.size();
+    visited = new bool* [y];
+    for (int i = 0; i < y; i++)visited[i] = new bool[x];
+
+    for (int i = 0; i < y; i++) {
+        for (int j = 0; j < x; j++) {
+            if (maps[i][j] == 'X') visited[i][j] = true; //Í∞à Ïàò ÏóÜÎäî Í≥≥ or Î∞©Î¨∏Ìïú Í≥≥ = true
+            else visited[i][j] = false; //Í∞à Ïàò ÏûàÎäî Í≥≥ÏûÑ = false 
+        }
+    }
+}
+
+void bfs(pair<int, int> start, bool isStoL,vector<string>const& maps) {
+    init(maps);
+    queue <pair<int, int>> q;
+    q.push(start); 
+    visited[start.first][start.second] = true; //Î∞©Î¨∏Ï≤òÎ¶¨
+    while (!q.empty()) {
+        int curX = q.front().first;
+        int curY = q.front().second;
+        q.pop();
+
+        for (int i = 0; i < 4; i++) {
+            int nx = curX + dx[i];
+            int ny = curY + dy[i];
+            if (nx < 0 || nx >= maps.size() || ny < 0 || ny >= maps[0].size()) continue; //ÏßÄÎèÑ Î∞ñÏóê Î≤óÏñ¥ÎÇòÎ©¥
+            if (!visited[nx][ny]) {
+                q.push({ nx,ny });
+                visited[nx][ny] = true;
+                if(isStoL)
+                    graphStoL[nx][ny] = graphStoL[curX][curY] + 1;
+                else
+                    graphLtoE[nx][ny] = graphLtoE[curX][curY] + 1;
+
+            }
+        }
+    }
+}
 
 int solution(vector<string> maps) {
     int answer = 0;
-    int h = maps.size();
-    int w = maps[0].size();
-    int no = h * w; //≥ÎµÂ¿« ∞≥ºˆ
-    //Init
-    for (int i = 0; i < 10001; i++) {
-        fill(table[i], table[i] + 10001, INF);
-    }
-
-    //¿⁄±‚ ¿⁄Ω≈¿∏∑Œ ∞°¥¬ ∫ÒøÎ 0
-    for (int i = 0; i < no; i++) {
-        table[i][i] = 0;
-    }
-
-    //∞£º± ¡§∫∏ µÓ∑œ
+    pair<int, int> sPos,ePos,lPos;
     for (int i = 0; i < maps.size(); i++) {
-
+        for (int j = 0; j < maps[0].size(); j++) {
+            if (maps[i][j] == 'S')sPos = { i,j };
+            else if (maps[i][j] == 'E')ePos = { i,j };
+            else if (maps[i][j] == 'L')lPos = { i,j };
+        }
     }
+    bfs(sPos, true, maps);
+    bfs(lPos, false, maps);
 
+    if (graphStoL[lPos.first][lPos.second] == 0 || graphLtoE[ePos.first][ePos.second] == 0)
+        return -1;
 
-    return answer;
+    return graphStoL[lPos.first][lPos.second] + graphLtoE[ePos.first][ePos.second];
 }
