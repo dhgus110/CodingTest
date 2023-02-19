@@ -8,13 +8,23 @@ using namespace std;
 // L: L 은 n의 각 자릿수를 왼편으로 회전시켜 그 결과를 레지스터에 저장한다. 이 연산이 끝나면 레지스터에 저장된 네 자릿수는 왼편부터 d2, d3, d4, d1이 된다.
 // R: R 은 n의 각 자릿수를 오른편으로 회전시켜 그 결과를 레지스터에 저장한다. 이 연산이 끝나면 레지스터에 저장된 네 자릿수는 왼편부터 d4, d1, d2, d3이 된다.
 
-int original, target;
+int original,target;
 bool visited[10'001];
 string table[10'001];
-string d[4] = {"D", "S", "L", "R"};
+string d[4]={"D","S","L","R"};
 
 int DSLR(int index, int type)
 {
+    string s = to_string(index);
+    while (s.length() != 4)
+    {
+        s = "0" + s;
+    }
+    char s0 = s[0];
+    char s1 =s[1];
+    char s2 =s[2];
+    char s3 = s[3];
+
     switch (type)
     {
     case 0: //D
@@ -24,10 +34,18 @@ int DSLR(int index, int type)
         index = index == 0 ? 9'999 : index - 1;
         break;
     case 2: //L
-        index = (index % 1000) * 10 + (index / 1000);
+        s[0] = s1;
+        s[1] = s2;
+        s[2] = s3;
+        s[3] = s0;
+        index = stoi(s);
         break;
     case 3: //R
-        index = (index % 10) * 1000 + (index / 10);
+        s[0] = s3;
+        s[1] = s0;
+        s[2] = s1;
+        s[3] = s2;
+        index = stoi(s);
         break;
     }
     return index;
@@ -41,21 +59,21 @@ void bfs()
 
     while (!q.empty())
     {
-        int curNum = q.front().first;
+        int curIndex = q.front().first;
         string curStr = q.front().second;
         q.pop();
 
-        if (curNum == target) break;
+        if (curIndex == target) break;
 
         for (int i = 0; i < 4; i++)
         {
-            int nextNum = DSLR(curNum, i);
+            int nextIndex = DSLR(curIndex, i);
             string nextStr = curStr + d[i];
-            if (!visited[nextNum])
+            if (!visited[nextIndex])
             {
-                q.push({nextNum, nextStr});
-                visited[nextNum] = true;
-                table[nextNum] = nextStr;
+                q.push({nextIndex, nextStr});
+                visited[nextIndex] = true;
+                table[nextIndex] = nextStr;
             }
         }
     }
