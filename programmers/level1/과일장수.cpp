@@ -13,5 +13,6 @@ int solution(int k, int m, vector<int> score) {
         answer += (score[m * i - 1] * m);
     }
 
+
     return answer;
 }
