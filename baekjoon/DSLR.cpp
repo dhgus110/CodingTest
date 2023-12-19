@@ -45,7 +45,8 @@ void bfs()
         string curStr = q.front().second;
         q.pop();
 
-        if (curNum == target) break;
+        if ( curNum == target ) break;
+        if ( visited[curNum] ) continue;
 
         for (int i = 0; i < 4; i++)
         {

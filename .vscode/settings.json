@@ -30,6 +30,7 @@
         "functional": "cpp",
         "unordered_set": "cpp",
         "__string": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "new": "cpp"
     }
 }
