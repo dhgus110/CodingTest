@@ -1,17 +1,22 @@
 #include <vector>
 #include <unordered_map>
-
+#include <set>
 using namespace std;
 
 int solution(vector<int> nums)
 {
-    unordered_map<int, int> hash;
+    set<int> s(nums.begin(),nums.end());
+    if(nums.size()/2 < s.size())return nums.size()/2;
+    else return s.size();
 
-    for (auto num: nums) {
-        hash[num] += 1;
-    }
 
-    return min(hash.size(), nums.size() / 2);
+    // unordered_map<int, int> hash;
+
+    // for (auto num: nums) {
+    //     hash[num] += 1;
+    // }
+
+    // return min(hash.size(), nums.size() / 2);
 
 }
 /*
