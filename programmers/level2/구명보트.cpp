@@ -30,3 +30,23 @@ int solution(vector<int> people, int limit) {
     }
     return answer;
 }
+
+int solution2(vector<int> people, int limit) {
+    int answer =0;
+    sort(people.begin(),people.end());
+    int front =0;
+    int back = people.size() - 1;
+
+    while(front<back){
+        if( people[front]+people[back]<= limit){
+            answer ++;
+            front ++;
+            back --;
+        }else{
+            answer++;
+            back--;
+        }
+    }
+    if(front == back) answer++;
+    return answer;
+}
