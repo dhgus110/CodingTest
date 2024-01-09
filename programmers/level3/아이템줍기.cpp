@@ -109,7 +109,7 @@ int run(int startx, int starty, int goalx, int goaly)
         //목표지점에 도달
         if(curx ==goalx && cury ==goaly ){
              visited[curx][cury] =false;
-             otherWay = !otherWay;
+             otherWay = true;
         }
         
     }
