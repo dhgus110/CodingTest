@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//탐욕법
 int solution(vector<int> people, int limit) {
     int answer = 0;
     sort(people.begin(), people.end());

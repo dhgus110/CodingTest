@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//탐욕법
 string solution(string number, int k) {
     for (int i = 0; i < number.size() && k != 0; i++) {
         if (number[i] < number[i + 1]) {

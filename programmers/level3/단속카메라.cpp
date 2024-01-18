@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//탐욕법
 int solution(vector<vector<int>> routes) {
     int answer = 1;
     sort(routes.begin(), routes.end(), [](const vector<int>& a, const vector<int>& b) {

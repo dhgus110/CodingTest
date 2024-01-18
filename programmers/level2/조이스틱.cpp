@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//탐욕법
 int solution(string name) {
     int answer = 0;
     int size = name.size();
