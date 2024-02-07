@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 
+//스택
 vector<int> solution(vector<int> prices) {
     vector<int >res(prices.size());
     stack <int> s ;
