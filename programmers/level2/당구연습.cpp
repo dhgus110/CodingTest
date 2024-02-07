@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//기본 알고리즘 문제
 vector<int> solution(int m, int n, int startX, int startY, vector<vector<int>> balls) {
     vector<int> answer;
     
