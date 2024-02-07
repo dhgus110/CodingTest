@@ -6,7 +6,7 @@
 
     using namespace std;
 
-    //DFS 풀이 
+    //DFS 풀이..
     int DFS(const vector<int> &n ,const int target){
         int answer =0;
         stack<pair<int,int>> s;
