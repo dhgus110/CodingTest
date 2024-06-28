@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+//동적계획법
 int solution(int m, int n, vector<vector<int>> puddles) {
     vector<vector<int>> map(n,vector<int>(m,1)); //모든 좌표 1
 

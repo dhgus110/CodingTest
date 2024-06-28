@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//동적계획법
 int solution(int N, int number)
 {
     vector<set<int>> dp(9);
