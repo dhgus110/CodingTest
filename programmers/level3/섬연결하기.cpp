@@ -8,7 +8,7 @@
 
 using namespace std;
 //주의 : 문제 조건에 섬 번호가 0부터 시작한다는 말이 없음 섬번호가 : 2, 6 ,12, 95 일 수도?
-
+// 프림 or 크루스칼
 //-------------- p r i m --------------
 vector<PII> *map; //map[i] i가 출발지인 노드, {first = 비용 ,second =도착 노드}
 priority_queue<PII,vector<PII>,greater<PII>> dist; //한 번 접근했던 노드들의 인접 간선들과 인접 노드들 집합
