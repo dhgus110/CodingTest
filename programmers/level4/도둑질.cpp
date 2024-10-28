@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//동적계획법 
 int solution(vector<int> money) {
     int answer = 0;
     int sum[MAX][2] ={0};

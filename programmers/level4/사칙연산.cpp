@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//동적계획법
 int solution(vector<string> arr)
 {
     int answer = -1;
