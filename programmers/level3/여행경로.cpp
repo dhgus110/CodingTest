@@ -3,37 +3,29 @@
 #include <algorithm>
 #include <numeric>
 #include <iostream>
+#include <set>
 
 using namespace std;
 
+//dfs
 vector<pair<vector<string>,int>> maps; //[[start, dest], order]
+set<vector<string>> s;
 
-pair<vector<string>,bool> dfs(vector<string> result, int order, vector<int> cnt){
-    vector<pair<vector<string>,bool>> fork;
+void dfs1(vector<string> result, int order, vector<int> cnt){
     string nextCity = maps[order].first[1];
     result.push_back(nextCity);
     cnt[order] =0;
 
     int sum =accumulate(cnt.begin(),cnt.end(),0);
-
-    //     for(auto r :result){
-    //     cout<< r << " ";
-    // }cout<<sum<<endl;
-
-    if(sum==0) return make_pair(result,true);
+    if(sum==0) {s.insert(result); return;}
 
     for(int i = 0 ;i<maps.size() ; i++){
         if (cnt[maps[i].second] == 1 && maps[i].first[0] == nextCity){
-            fork.push_back(dfs(result,maps[i].second,cnt));
+            dfs1(result,maps[i].second,cnt);
         }
     }
 
-    for(auto f : fork){
-
-        return f;
-    }
-
-    return make_pair(result,false);
+    return ;
 }
 
 vector<string> solution(vector<vector<string>> tickets) {
@@ -51,17 +43,15 @@ vector<string> solution(vector<vector<string>> tickets) {
     for(int i = 0 ; i<maps.size(); i++){
         if (maps[i].first[0] == "ICN"){
             vector<int> cnt(tickets.size(), 1);
-            pair<vector<string>,bool> res = dfs(answer,maps[i].second,cnt);
-            // for(auto r : res.first){
-            //     cout<< r<<" ";
-            // }cout<<endl;
-            if(res.second) results.push_back(res.first);
+            // pair<vector<string>,bool> res = dfs(answer,maps[i].second,cnt);
+            // if(res.second) results.push_back(res.first);
+             dfs1(answer,maps[i].second,cnt);
         }
     }
-    results.push_back({"ZZZ"});
-    sort(results.begin(),results.end());
 
-    return results[0];
+    auto it = s.begin();
+
+    return *it;
 }
 
 
