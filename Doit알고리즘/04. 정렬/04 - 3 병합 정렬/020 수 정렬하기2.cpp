@@ -19,7 +19,7 @@ void Init()
         cin >> myArray[i];
 }
 
-//재귀
+// 재귀
 void Merge_Sort1(int _start, int _end)
 {
     if(_end - _start < 1 ) return;
@@ -38,7 +38,7 @@ void Merge_Sort1(int _start, int _end)
     int pointer_1 = _start;
     int pointer_2 = mid + 1;
 
-    //투 포인터를 이용한 두 부분 집합의 정렬
+    // 투 포인터를 이용한 두 부분 집합의 정렬
     while(pointer_1 <= mid && pointer_2 <= _end)
     {
         if (temp[pointer_1] < temp[pointer_2])
@@ -64,7 +64,7 @@ struct Frame{
     bool merged;
 };
 
-//스택으로 풀어 봤는데 재귀보다 더 오래걸림. stack은 내부적으로 vector or deque를 사용해서 push/pop연산해서 비용이 더 나가나봄.
+// 스택으로 풀어 봤는데 재귀보다 더 오래걸림. stack은 내부적으로 vector or deque를 사용해서 push/pop연산해서 비용이 더 나가나봄.
 void Merge_Sort2(int _start, int _end)
 {
     stack<Frame> s;

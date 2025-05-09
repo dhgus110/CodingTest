@@ -53,9 +53,29 @@ void QuickSort(int _start , int _end)
     QuickSort(  i + 1, _end);
 }
 
-void QuickSelect()
+int QuickSelect(int _start, int _end, int _targetIdx)
 {
-    
+    if(_start == _end ) return myArray[_start];
+
+    int pivot = _end;
+    int pivotValue = myArray[_end];
+
+    int i = _start;
+    for (int j = _start; j < _end ; ++j)
+    {
+        if (myArray[j] < pivotValue)
+            swap(myArray[j], myArray[i++]);
+    }
+
+    swap(myArray[i], myArray[pivot]); // 피벗을 제자리에 이동
+    int pivotIdx = i;
+
+    if (pivotIdx == _targetIdx)
+        return myArray[pivotIdx];
+    else if (pivotIdx > _targetIdx)
+        return QuickSelect(_start, pivotIdx - 1, _targetIdx);
+    else
+        return QuickSelect(pivotIdx + 1, _end, _targetIdx);
 }
 
 int Easy_Solution()
@@ -69,9 +89,10 @@ int main()
 {
     init();
 
-    QuickSort(0, dataSize - 1);
+   // QuickSort(0, dataSize - 1);
+    //cout<<myArray[k-1];
 
-    cout<<myArray[k-1];
+    cout << QuickSelect(0, dataSize - 1, k - 1);
 
     //cout<<Easy_Solution();
 }
