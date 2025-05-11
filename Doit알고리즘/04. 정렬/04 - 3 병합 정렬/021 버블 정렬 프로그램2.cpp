@@ -7,7 +7,7 @@
 using namespace std;
 
 int ArraySize = {};
-int MyArray[500'001] = {};
+int MyArray[500'001] = {} ;
 int temp[500'001] = {};
 
 void init()
@@ -18,58 +18,63 @@ void init()
 
     cin >> ArraySize;
 
-    for(int i = 0 ; i< ArraySize ; ++i)
+    for(int i = 1 ; i <= ArraySize ; ++i)
         cin >> MyArray[i];
+
 }
 
-void Merge_Sort(const int _start, const int _end, int *_result)
+void Merge_Sort(const int _start, const int _end, long long *_result)
 {
-    if (_end - _start < 1) return;
+    if (_end - _start <= 0) return;
 
     int mid = _start + (_end - _start) / 2;
 
     Merge_Sort(_start, mid, _result);
     Merge_Sort(mid + 1, _end, _result);
 
-    for(int i = _start ; i <= _end; ++i)
-        temp[i] = MyArray[i];   
+    for (int i = _start; i <= _end; ++i)
+        temp[i] = MyArray[i];
 
     int key = _start;
     int pointer_1 = _start;
     int pointer_2 = mid + 1;
 
-    while(key <= _end)
+    while (pointer_1 <= mid && pointer_2 <= _end)
     {
-        if(temp[pointer_1] < temp[pointer_2])  {
-           // MyArray[key++] = temp[pointer_1++];
-            ++(*_result);
-        } 
-        else if( temp[pointer_1] > temp[pointer_2])  {
-            //MyArray[key++] = temp[pointer_2++];
-            ++(*_result);
-        } 
+        if( temp[pointer_1] > temp[pointer_2])  {
+            //버블 정렬할 때 버블 횟수를 물어보는 문제
+            //pointer_2의 데이터들은 pointer_1의 데이터들보다 뒤에 있고
+            //버블소트에서의 스왑 횟수를 계산해야하므로 뒤쪽 데이터 값이 더 작으면 앞으로 몇 칸 이동했는지 계산해서서 같은 효과를 볼 수 있음.
+            (*_result) += (pointer_2 - key);
+            MyArray[key++] = temp[pointer_2++];
+        }
+        else
+        {
+            MyArray[key++] = temp[pointer_1++];
+        }
     }
 
-
-    // while(pointer_1 <= mid + 1)
-    // {
-    //     MyArray[key++] = temp[pointer_1++];
-    // }
+    while(pointer_1 <= mid )
+    {
+        MyArray[key++] = temp[pointer_1++];
+    }
     
-    // while (pointer_2 <= _end)
-    // {
-    //     MyArray[key++] = temp[pointer_2++];
-    // }
+    while (pointer_2 <= _end)
+    {
+        MyArray[key++] = temp[pointer_2++];
+    }
+    
+
 
 }
 
 int main()
 {
-    int result(0);
+    long long result(0);
 
     init();
 
-    Merge_Sort(0, ArraySize - 1 , &result);
+    Merge_Sort(1, ArraySize , &result);
 
     cout << result;
 }
