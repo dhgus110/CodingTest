@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
@@ -26,6 +27,28 @@ void dfs(int v){
     for(auto g :graph[v]){
         if(!visit[g])
             dfs(g);
+    }
+}
+
+void dfs2(int v)
+{
+    stack<int> s ;
+
+    s.push(v);
+    visit[v] = true;
+    while(!s.empty())
+    {
+        int val = s.top();
+        s.pop();
+
+        for (auto g : graph[val])
+        {
+            if (!visit[g])
+            {
+                s.push(g);
+                visit[g] = true;
+            }  
+        }
     }
 }
 
