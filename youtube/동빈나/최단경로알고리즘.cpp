@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <queue>
+
 #define INF 1e9 //무한의 값을 10억으로 설정
 
 using namespace std;
@@ -9,6 +10,7 @@ using namespace std;
 /////////다익스트라 알고리즘 구현///////
 //노드의 개수(n) 간선의 개수(m) 시작 노드 번호(start)
 int n, m , start;
+
 //각 노드에 연결되어 있는 노드에 대한 정보를 담는 배열
 vector<pair<int,int>> graph[100001];
 //방문한적 있는지?
