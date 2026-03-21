@@ -1,0 +1,75 @@
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+vector<pair<int,int>> Graph[101];  //Graph[출발노선].({도착노선, 간선})
+int MaxCnt = 0;
+int N, Infection, K;
+
+void Init( int n , int infection , int k, const vector<vector<int>>& edges)
+{
+    N=n ; 
+    K = k; 
+    Infection = infection;
+    
+    for(const auto& edge :edges)
+    {
+        Graph[edge[0]].push_back({edge[1],edge[2]});
+        Graph[edge[1]].push_back({edge[0],edge[2]});
+    }
+    
+}
+//현재 스테이지내에서 하나의 노드로부터 이어져있는 노드들을 연쇄적으로 확인을 하기 위함
+void CheckNode(int curNode, int curOpenPipeline, set<int>& nodeSet, vector<bool>& visited)
+{       
+    for(const auto& data : Graph[curNode])
+    {
+        if(visited[data.first])
+            continue;
+        
+        if(data.second == curOpenPipeline)
+        {
+            nodeSet.emplace(data.first);
+            visited[data.first] = true;
+            CheckNode(data.first, curOpenPipeline, nodeSet, visited );
+        }
+    }
+}
+
+void Run(int curStage, int openPipeline, const vector<vector<int>>& edges, set<int> nodeSet)
+{
+    set<int> temp(nodeSet);
+    vector<bool> visited(N,false);
+    
+    for(int node : temp)
+    {
+        fill(visited.begin(), visited.end(),false);
+        CheckNode(node, openPipeline, nodeSet, visited);
+    }
+    
+    if( curStage == K)
+    {
+        int infectionCnt = nodeSet.size();
+        MaxCnt = MaxCnt < infectionCnt ? infectionCnt : MaxCnt;
+        return;
+    }
+    
+    for(int i = 1 ; i <= 3 ; ++i)
+        Run(curStage + 1, i, edges, nodeSet);
+}
+
+int solution(int n, int infection, vector<vector<int>> edges, int k) {
+    int answer = 0;
+
+    set<int> nodeSet;
+    nodeSet.emplace(infection);
+    
+    Init(n,infection,k,edges);
+    
+    for(int i = 1 ; i <= 3 ; ++i)
+        Run(1, i, edges,nodeSet);
+
+    return MaxCnt;
+}
