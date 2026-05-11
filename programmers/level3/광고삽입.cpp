@@ -4,8 +4,10 @@
 
 using namespace std;
 
-int playTime[360'000];
-int peopleSum[360'000];
+long long sumTime[360'000];
+int entry[360'000];
+int leave[360'000];
+int people[360'000]; //시간대에 몇명이 시청중인지
 
 int strTimeToInt(string time)
 {
@@ -40,47 +42,49 @@ string intTimeToStr(int time)
 }
 
 string solution(string play_time, string adv_time, vector<string> logs) {
-    fill(playTime, playTime + 360'000, 0);
+    fill(entry, entry + 360'000, 0);
+    fill(leave, leave + 360'000, 0);
     fill(people, people + 360'000, 0);
-
-    int startTime = 360'000 ; 
+    fill(sumTime, sumTime + 360'000, 0);
     for(const auto& log : logs)
     {
-        int firstTime =strTimeToInt(log.substr(0,8));
-        startTime = min(startTime, firstTime);
-        ++playTime[firstTime];
-        --playTime[strTimeToInt(log.substr(9,8))];
+        ++entry[strTimeToInt(log.substr(0,8))];
+        ++leave[strTimeToInt(log.substr(9,8))];
     }
 
-    int playDuration = strTimeToInt(play_time);
-    int advDuration = strTimeToInt(adv_time);
-    int lastAdvTime = playDuration - advDuration + 1;
-    int StartAdvTime = startTime < lastAdvTime ? startTime : lastAdvTime;
-
-    int startSum = 0;
-    for(int i = StartAdvTime ; i <= StartAdvTime + advDuration - 1 && playDuration >= i  ; ++i)
-        startSum +=playTime[i];
-
-    people[StartAdvTime] = startSum;
-
-    int maxPeople = startSum;
-    int maxIndex = StartAdvTime;
-
-    int cnt = 0 ;
-    cout<< StartAdvTime<< " "<< lastAdvTime<< " "<< playDuration<<endl;
-
-    for(int i = StartAdvTime + 1 ; i <= lastAdvTime && playDuration >= i ; ++i)
+    int playDurtaion = strTimeToInt(play_time);
+    int advDurtaion = strTimeToInt(adv_time);
+    int curPeople = 0;
+    for(int i = 0 ; i <= playDurtaion ; ++i)
     {
-        if(i & 9 == 0 ) cout<<i;
-        people[i] = people[i - 1] + playTime[i - 1 + advDuration] - playTime[i - 1];
-        if( maxPeople < people[i])
-        {
-            maxIndex = i;
-            maxPeople = people[i];
-        }
-        ++cnt;
+        curPeople = curPeople + entry[i] - leave[i];
+        people[i] = curPeople;
     }
-cout<<cnt;
-    return intTimeToStr(people[maxIndex]);
+
+
+    int firstSumTime = 0;
+    for(int i = 0 ; i < advDurtaion ; ++i)
+        firstSumTime += people[i];
+    
+
+    sumTime[0] = firstSumTime;
+    int maxTime = 0;
+    long long maxTimeValue = sumTime[0];
+
+    for(int i = 1 ; i <= playDurtaion ; ++i)
+    {
+        int next = advDurtaion + i - 1;
+        if(next > playDurtaion) break;
+
+        sumTime[i] = sumTime[i - 1] + people[next] - people[i - 1];
+        if( maxTimeValue < sumTime[i] )
+        {
+            maxTimeValue = sumTime[i];
+            maxTime = i;
+        }
+
+    }
+
+    return intTimeToStr(maxTime);
 }
 
