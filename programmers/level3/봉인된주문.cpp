@@ -22,7 +22,9 @@ string banString(long long idx)
     string res = "";
     while ( idx > 0)
     {
-        res += (idx % 26 + 1) + 'a'; 
+        long long temp = (idx % 26) == 0 ? 25 : (idx % 26) - 1;
+        res += temp + 'a'; 
+        if(temp==25) --idx;
         idx/=26;
     }
 
@@ -42,14 +44,18 @@ string solution(long long n, vector<string> bans) {
 
     while( index < bans.size())
     {
-        if(banIndex(bans[index]) < n )
+        if(banIndex(bans[index]) <= n )
         {
             ++n;
             ++index;
         }
         else break;
     }
-
-    cout<< n<<endl;
+    
+    // string a= "zzaz";
+    // long long temp = banIndex(a);
+    // cout<< temp<<endl;
+    // cout<< banString(temp)<<endl;
+    
     return banString(n);
 }
