@@ -97,3 +97,73 @@ vector<int> solution(vector<int> nodes, vector<vector<int>> edges) {
     return answer;
 }
 
+
+
+
+//-------------------------union-find 풀이--------------------
+/*
+    트리에서 간선의 수만으로 홀짝/ 역홀짝인지 알 수 있음.
+
+*/
+int parent[1'000'001];
+int degree[1'000'001];
+
+int findParent(int x)
+{
+    while(parent[x] != x)
+    {
+        int next = parent[x];
+        parent[x] = parent[parent[x]];
+        x = next;
+    }
+   return x; 
+}
+
+void unionParent(int a, int b)
+{
+    parent[findParent(a)] = findParent(b);
+}
+
+int init2(const vector<int>& nodes, const vector<vector<int>>& edges)
+{
+    int maxValue = 0;
+    for(int node : nodes){
+       parent[node] = node;
+       maxValue = max(maxValue, node);
+    } 
+
+    for(const auto& edge :edges) 
+    {
+        unionParent(edge[0], edge[1]);
+        ++degree[edge[0]];
+        ++degree[edge[1]];
+    }
+    return maxValue;
+}
+
+vector<int> solution2(vector<int> nodes, vector<vector<int>> edges) 
+{
+    vector<int> answer(2,0);
+    int maxValue = init2(nodes, edges);
+    vector<int> cnt1(maxValue + 1, 0);
+    vector<int> cnt2(maxValue + 1, 0);
+
+    //run
+    for(int node : nodes)
+    {
+        int root = findParent(node);
+        if((node % 2) == (degree[node] % 2)) ++cnt1[root];
+        else ++cnt2[root];
+    }
+
+    for(int node : nodes)
+    {
+        if(findParent(node) == node)
+        {
+            if(cnt2[node] == 1) ++answer[0];  // 홀짝트리
+            if(cnt1[node] == 1) ++answer[1];  // 역홀짝트리
+        }
+    }
+
+    return answer;
+}
