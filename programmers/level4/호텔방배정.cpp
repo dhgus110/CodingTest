@@ -1,77 +1,101 @@
 #include <string>
 #include <vector>
-#include <set>
 #include <map>
 #include <algorithm>
 #include <iostream>
-#include <climits>
 
 using namespace std;
-
 typedef long long ll;
-constexpr ll LLNF = LLONG_MAX;
 
-//vector<pair<ll,ll>> rangeNumbers;
 map<ll,ll> rangeNumbers;
 
-void updateRange(map<ll,ll>::iterator it)
+void updateRange(map<ll,ll>::iterator curIt)
 {
-    for(int i = 0 ; i < 2 ; ++i)
+    if (rangeNumbers.size() <= 1) return;
+
+    bool prevRun = false , nextRun = false;
+    auto prevIt = curIt , nextIt = curIt;
+
+    if(curIt == rangeNumbers.begin())
     {
-        auto it2 = it;
-        if(++it2 == rangeNumbers.end()) break;
-        if (it->second + 1 == it2->first)
-        {
-            it->second = it2->second;
-            rangeNumbers.erase(it2);
-            break;
-        }
+        ++nextIt;
+        nextRun = true;
+
     }
+    else if ( curIt == prev(rangeNumbers.end()))
+    {
+        --prevIt;
+        prevRun = true;
+    }
+    else{
+        --prevIt;
+        ++nextIt;
+        prevRun = true;
+        nextRun = true;
+    }
+
+    bool prevFlag =false, nextFlag = false;
+
+    if(prevRun && prevIt->second + 1 == curIt->first)
+    {
+        prevFlag = true;
+        prevIt->second = curIt->second;
+    }
+    if(nextRun && curIt->second + 1 == nextIt->first)
+    {
+        nextFlag = true;
+        curIt->second = nextIt->second;
+    }
+
+    if(prevFlag && nextFlag)
+    {
+        prevIt->second = curIt->second;
+        rangeNumbers.erase(curIt);
+        rangeNumbers.erase(nextIt);
+    }
+    else if(prevFlag) rangeNumbers.erase(curIt);
+    else if(nextFlag) rangeNumbers.erase(nextIt);
 }
 
-void addNumber(ll n)
+ll addNumber(map<ll,ll>::iterator& prevIt)
 {
-    auto [it, inserted] = rangeNumbers.emplace(n,n);
-    it = it == rangeNumbers.begin() ? it : --it;
-    updateRange(it);
-}
+    ll nextNumber = prevIt->second + 1;
+    prevIt->second = nextNumber;
 
-ll addNumber2(ll n)
-{
-    auto  it = rangeNumbers.upper_bound(n);
-    if(it != rangeNumbers.end())
-    {
-        --it;
-        ll nextNumber = it->second + 1;
-        it->second = nextNumber;
-        return nextNumber;
-    }
+    if (prevIt != prev(rangeNumbers.end()))
+        updateRange(prevIt);
+
+    return nextNumber;
 }
 
 vector<ll> solution(ll k, vector<ll> room_number) {
     vector<ll> answer;
-    set<ll> numbers;
+    answer.reserve(room_number.size());
 
     for(ll n : room_number)
     {
-        auto it = numbers.find(n);
+        auto  it = rangeNumbers.upper_bound(n);
+        bool used = false;
 
-        if(it == numbers.end())
+        if (it != rangeNumbers.begin())
         {
-            numbers.emplace(n);
-            answer.emplace_back(n);
-            addNumber(n);
-        }
-        else{
-            ll nextNumber = addNumber2(n);
-            numbers.emplace(nextNumber);
-            answer.emplace_back(nextNumber);
+            auto prevIt = prev(it);
+            if (prevIt->first <= n && n <= prevIt->second) {
+                 answer.emplace_back(addNumber(prevIt));
+                continue;
+            }
         }
 
-        cout<<n<<endl;
-        for(auto p : rangeNumbers)
-            cout<<"["<< p.first<<" - "<<p.second<<"]"<<endl;
-        cout<<endl;
+        //바로 삽입
+        auto newIt = rangeNumbers.emplace_hint(it, n, n);
+        updateRange(newIt);
+
+        answer.emplace_back(n);
+
+        // cout<<n<<endl;
+        // for(auto p : rangeNumbers)
+        //     cout<<"["<< p.first<<" - "<<p.second<<"]"<<endl;
+        // cout<<endl;
     }
 
     return answer;
